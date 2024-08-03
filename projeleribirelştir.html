@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cufu AI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 400px;
+            max-width: 100%;
+            background-color: #444;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background-color: #555;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+         #chatBox::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(https://i.ibb.co/9TGdNs0/indir.png) no-repeat center center;
+            background-size: cover;
+            filter: blur(8px); /* Bulanıklık efekti */
+            z-index: -1; /* Arka planda olması için z-index */
+            opacity: 0.5; /* Görünürlük için opasite */
+        }
+        .chat-box .message {
+            margin-bottom: 10px;
+        }
+        .chat-box .user-message {
+            text-align: right;
+        }
+        .chat-box .bot-message {
+            text-align: left;
+            color: #eee;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #666;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 0;
+            outline: none;
+            background-color: #555;
+            color: #fff;
+        }
+        .chat-input button {
+            padding: 10px;
+            border: none;
+            background-color: #777;
+            color: #fff;
+            cursor: pointer;
+        }
+        .chat-input button:hover {
+            background-color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">Cufu AI</div>
+        <div class="chat-box" id="chatBox"></div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Mesajınızı yazın...">
+            <button onclick="sendMessage()">Gönder</button>
+        </div>
+    </div>
+    <script>
+        function getBotResponse(userInput) {
+            const lowerCaseInput = userInput.toLowerCase();
+
+            // Detaylı yanıtlar
+            if (lowerCaseInput.includes('merhaba') || lowerCaseInput.includes('selam')) {
+                return 'Merhaba! Size nasıl yardımcı olabilirim? Biz Cufu AI olarak her türlü sorunuza cevap vermeye çalışıyoruz. Size nasıl yardımcı olabilirim?';
+            } else if (lowerCaseInput.includes('hava') || lowerCaseInput.includes('hava durumu')) {
+                return 'Üzgünüm, hava durumu bilgisini şu anda sağlayamıyorum. Ancak, hava durumu bilgilerini öğrenmek için yerel hava durumu raporlarına veya hava durumu uygulamalarına başvurabilirsiniz.';
+            } else if (lowerCaseInput.includes('yardım') || lowerCaseInput.includes('ne yapabilirim')) {
+                return 'Size nasıl yardımcı olabileceğimi öğrenmek için lütfen hangi konuda yardıma ihtiyacınız olduğunu belirtin. Teknoloji, genel bilgi, veya başka bir konuda size destek olabilirim.';
+            } else if (lowerCaseInput.includes('teşekkür') || lowerCaseInput.includes('sağol')) {
+                return 'Rica ederim! Size yardımcı olabilmek benim için bir zevk. Başka bir sorunuz varsa sormaktan çekinmeyin.';
+            } else if (lowerCaseInput.includes('kim') || lowerCaseInput.includes('ne') || lowerCaseInput.includes('nedir')) {
+                return 'Ben Cufu AI, bir chatbot’um. Amacım sorularınızı yanıtlamak ve size yardımcı olmaktır. Size nasıl yardımcı olabilirim?';
+            } else if (lowerCaseInput.includes('saati') || lowerCaseInput.includes('saat kaç')) {
+                return 'Üzgünüm, saati şu anda veremiyorum. Saat bilgilerini öğrenmek için saat uygulamanızı veya bir saat kullanabilirsiniz.';
+            } else if (lowerCaseInput.includes('bugün') || lowerCaseInput.includes('ne gün')) {
+                return 'Bugün bir gün ve hayat devam ediyor! Bugünün tarihini öğrenmek için takviminize bakabilirsiniz.';
+            } else if (lowerCaseInput.includes('kaç') || lowerCaseInput.includes('ne kadar')) {
+                return 'Bu konuda bir bilgiye sahip değilim. Ancak, ne hakkında bilgi istediğinizi belirtirseniz size yardımcı olmaya çalışırım.';
+            } else if (lowerCaseInput.includes('nerede') || lowerCaseInput.includes('nereye')) {
+                return 'Beni buradan görebiliyorsunuz. Fiziksel bir varlığım yok, tamamen sanal bir asistanım.';
+                       } else if (lowerCaseInput.includes('konu') || lowerCaseInput.includes('başlık')) {
+                return 'Belirli bir konu hakkında konuşabiliriz. Lütfen ilgi duyduğunuz konuyu belirtin ve size bu konuda yardımcı olmaya çalışayım.';
+            } else if (lowerCaseInput.includes('belirli') || lowerCaseInput.includes('spesifik')) {
+                return 'Spesifik konular hakkında bilgi verebilirim. Lütfen daha ayrıntılı bir şekilde ne hakkında bilgi almak istediğinizi belirtin.';
+            } else if (lowerCaseInput.includes('detaylı') || lowerCaseInput.includes('açıklama')) {
+                return 'Detaylı bilgi vermeye çalışırım. İlgilendiğiniz konu hakkında daha fazla ayrıntı verirseniz, size daha iyi yardımcı olabilirim.';
+            } else if (lowerCaseInput.includes('uygulama') || lowerCaseInput.includes('program')) {
+                return 'Uygulama veya program hakkında bilgi sağlayabilirim. Spesifik bir uygulama veya program hakkında sorularınız varsa, lütfen belirtin.';
+            } else if (lowerCaseInput.includes('sorun') || lowerCaseInput.includes('problem')) {
+                return 'Sorun veya problem ile ilgili bilgi veremem, ancak karşılaştığınız sorunu daha ayrıntılı bir şekilde açıklar ve çözüm arayışınıza yardımcı olabilirim.';
+            } else if (lowerCaseInput.includes('düşünce') || lowerCaseInput.includes('yorum')) {
+                return 'Yorum veya düşünce hakkında bilgi veremem, ama bilgi sağlamada yardımcı olabilirim. Belirli bir konu hakkında bilgi almak isterseniz, lütfen belirtin.';
+            } else if (lowerCaseInput.includes('yeni') || lowerCaseInput.includes('güncel')) {
+                return 'Her şey sürekli değişiyor ve güncelleniyor. Güncel konular hakkında bilgi almak isterseniz, belirli bir konuda soru sorabilirsiniz.';
+            } else if (lowerCaseInput.includes('ne') || lowerCaseInput.includes('hangi')) {
+                return 'Bu konuda daha fazla bilgiye ihtiyacım var. Lütfen ne hakkında bilgi almak istediğinizi belirtin, böylece size daha iyi yardımcı olabilirim.';
+            } else if (lowerCaseInput.includes('bilgi') || lowerCaseInput.includes('öğrenmek')) {
+                return 'Bilgi edinmek için buradayım. Öğrenmek istediğiniz belirli bir konu varsa, lütfen belirtin ve size bu konuda bilgi vermeye çalışayım.';
+            } else if (lowerCaseInput.includes('fiyat') || lowerCaseInput.includes('ne kadar')) {
+                return 'Fiyat bilgisi veremem, ancak hangi ürün veya hizmetle ilgili olduğunu belirtirseniz, size bu konuda nasıl yardımcı olabileceğimi belirtebilirim.';
+            } else if (lowerCaseInput.includes('öneri') || lowerCaseInput.includes('ne önerirsiniz')) {
+                return 'Önerilerde bulunabilirim. Belirli bir konuda öneri istiyorsanız, lütfen konu hakkında daha fazla bilgi verin.';
+            } else if (lowerCaseInput.includes('tekrar') || lowerCaseInput.includes('yeniden')) {
+                return 'Sorunuzu tekrar edebilirsiniz. Size nasıl yardımcı olabileceğimi anlamak için sorunuzu netleştirmenizi rica ediyorum.';
+            } else if (lowerCaseInput.includes('tarih') || lowerCaseInput.includes('bugün') || lowerCaseInput.includes('ne zaman')) {
+                return 'Tarih veya zaman hakkında bilgi veremem. Güncel tarihi öğrenmek için takviminize veya dijital cihazınıza bakabilirsiniz.';
+            } else if (lowerCaseInput.includes('yorum') || lowerCaseInput.includes('düşünce')) {
+                return 'Düşünce veya yorum yapamam, ancak bilgi sağlayabilirim. Belirli bir konuda sorularınızı yanıtlamaya çalışacağım.';
+            } else if (lowerCaseInput.includes('nasıl') || lowerCaseInput.includes('ne şekilde'))
+            } else if (lowerCaseInput.includes('konu') || lowerCaseInput.includes('başlık')) {
+                return 'Belirli bir konu hakkında konuşabiliriz. Lütfen ilgi duyduğunuz konuyu belirtin ve size bu konuda yardımcı olmaya çalışayım.';
+            } else if (lowerCaseInput.includes('belirli') || lowerCaseInput.includes('spesifik')) {
+                return 'Spesifik konular hakkında bilgi verebilirim. Lütfen daha ayrıntılı bir şekilde ne hakkında bilgi almak istediğinizi belirtin.';
+            } else if (lowerCaseInput.includes('detaylı') || lowerCaseInput.includes('açıklama')) {
+                return 'Detaylı bilgi vermeye çalışırım. İlgilendiğiniz konu hakkında daha fazla ayrıntı verirseniz, size daha iyi yardımcı olabilirim.';
+            } else if (lowerCaseInput.includes('uygulama') || lowerCaseInput.includes('program')) {
+                return 'Uygulama veya program hakkında bilgi sağlayabilirim. Spesifik bir uygulama veya program hakkında sorularınız varsa, lütfen belirtin.';
+            } else if (lowerCaseInput.includes('sorun') || lowerCaseInput.includes('problem')) {
+                return 'Sorun veya problem ile ilgili bilgi veremem, ancak karşılaştığınız sorunu daha ayrıntılı bir şekilde açıklar ve çözüm arayışınıza yardımcı olabilirim.';
+            } else if (lowerCaseInput.includes('düşünce') || lowerCaseInput.includes('yorum')) {
+                return 'Yorum veya düşünce hakkında bilgi veremem, ama bilgi sağlamada yardımcı olabilirim. Belirli bir konu hakkında bilgi almak isterseniz, lütfen belirtin.';
+            } else if (lowerCaseInput.includes('yeni') || lowerCaseInput.includes('güncel')) {
+                return 'Her şey sürekli değişiyor ve güncelleniyor. Güncel konular hakkında bilgi almak isterseniz, belirli bir konuda soru sorabilirsiniz.';
+            } else if (lowerCaseInput.includes('ne') || lowerCaseInput.includes('hangi')) {
+                return 'Bu konuda daha fazla bilgiye ihtiyacım var. Lütfen ne hakkında bilgi almak istediğinizi belirtin, böylece size daha iyi yardımcı olabilirim.';
+            } else if (lowerCaseInput.includes('bilgi') || lowerCaseInput.includes('öğrenmek')) {
+                return 'Bilgi edinmek için buradayım. Öğrenmek istediğiniz belirli bir konu varsa, lütfen belirtin ve size bu konuda bilgi vermeye çalışayım.';
+            } else if (lowerCaseInput.includes('fiyat') || lowerCaseInput.includes('ne kadar')) {
+                return 'Fiyat bilgisi veremem, ancak hangi ürün veya hizmetle ilgili olduğunu belirtirseniz, size bu konuda nasıl yardımcı olabileceğimi belirtebilirim.';
+            } else if (lowerCaseInput.includes('öneri') || lowerCaseInput.includes('ne önerirsiniz')) {
+                return 'Önerilerde bulunabilirim. Belirli bir konuda öneri istiyorsanız, lütfen konu hakkında daha fazla bilgi verin.';
+            } else if (lowerCaseInput.includes('tekrar') || lowerCaseInput.includes('yeniden')) {
+                return 'Sorunuzu tekrar edebilirsiniz. Size nasıl yardımcı olabileceğimi anlamak için sorunuzu netleştirmenizi rica ediyorum.';
+            } else if (lowerCaseInput.includes('tarih') || lowerCaseInput.includes('bugün') || lowerCaseInput.includes('ne zaman')) {
+                return 'Tarih veya zaman hakkında bilgi veremem. Güncel tarihi öğrenmek için takviminize veya dijital cihazınıza bakabilirsiniz.';
+            } else if (lowerCaseInput.includes('yorum') || lowerCaseInput.includes('düşünce')) {
+                return 'Düşünce veya yorum yapamam, ancak bilgi sağlayabilirim. Belirli bir konuda sorularınızı yanıtlamaya çalışacağım.';
+            } else if (lowerCaseInput.includes('nasıl') || lowerCaseInput.includes('ne şekilde')) {
+                return 'Size nasıl yardımcı olabileceğimi öğrenmek için spesifik bir konu belirtirseniz, bu konuda bilgi vermeye çalışırım.';
+            } else if (lowerCaseInput.includes('göster') || lowerCaseInput.includes('görmek istiyorum')) {
+                return 'Gösterim yapamam, ancak bilgi sağlamada yardımcı olabilirim. Lütfen öğrenmek istediğiniz konuyu belirtin.';
+            } else if (lowerCaseInput.includes('öğren') || lowerCaseInput.includes('ne hakkında')) {
+                return 'Bilgi edinmek için buradayım. Öğrenmek istediğiniz konuyu belirtirseniz, size bu konuda yardımcı olmaya çalışacağım.';
+            } else if (lowerCaseInput.includes('ayrıntı') || lowerCaseInput.includes('detay')) {
+                return 'Detaylı bilgi veremem, ancak konuyla ilgili genel bilgi sağlayabilirim. Lütfen hangi konuda bilgi almak istediğinizi belirtin.';
+            } else if (lowerCaseInput.includes('özet') || lowerCaseInput.includes('kapsam')) {
+                return 'Özet hakkında bilgi veremem. Ancak, belirli bir konu hakkında daha ayrıntılı bilgi sağlamaya çalışırım.';
+            } else {
+                return 'Üzgünüm, bu konuda yardımcı olamıyorum. Lütfen başka bir soru sorun veya ilginizi çeken bir konu belirtin.';
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput.trim() === '') return;
+
+            const chatBox = document.getElementById('chatBox');
+
+            // Kullanıcı mesajı
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = userInput;
+            chatBox.appendChild(userMessage);
+
+            // Bot yanıtı
+            const botMessage = document.createElement('div');
+            botMessage.className = 'message bot-message';
+            botMessage.textContent = getBotResponse(userInput);
+            chatBox.appendChild(botMessage);
+
+            // Mesajı temizle
+            document.getElementById('userInput').value = '';
+
+            // Scroll'a kaydır
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
+
